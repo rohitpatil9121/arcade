@@ -1,0 +1,465 @@
+{
+  "featured": [
+    "faultline",
+    "rope-team",
+    "skyfarm",
+    "hexhaul"
+  ],
+  "games": [
+    {
+      "id": "faultline",
+      "title": "FAULTLINE",
+      "tagline": "Hill driving on ground that moves under you.",
+      "description": "Hills heave up, slopes slump, faults slip and the tide floods the low road. Every change glows orange a few seconds before it moves, so you can read it and pick your speed. Carry tremor charges to move the ground yourself: a ramp on the flat, a dip on a slope, or a pit under a rival.",
+      "genres": [
+        "Driving",
+        "Physics"
+      ],
+      "players": "Solo",
+      "controls": [
+        [
+          "Gas",
+          "→ or D"
+        ],
+        [
+          "Brake / reverse",
+          "← or A"
+        ],
+        [
+          "Tremor charge",
+          "Space or W (hold to aim)"
+        ],
+        [
+          "Pause",
+          "Esc or P"
+        ]
+      ],
+      "touch": true,
+      "source": {
+        "dir": "../faultline/dist/itch",
+        "build": {
+          "cwd": "../faultline",
+          "cmd": "node tools/build-itch.mjs"
+        }
+      },
+      "thumb": "../faultline/screenshots/mesa.jpg",
+      "thumbAlt": "../faultline/screenshots/title.jpg"
+    },
+    {
+      "id": "rope-team",
+      "title": "ROPE TEAM",
+      "tagline": "Climb a mountain on one shared rope.",
+      "description": "Co-op climbing for one to four people tied to the same rope. When one of you slips, the others have to hold on. Climb with bots straight away; rooms with friends need the game's server.",
+      "genres": [
+        "Co-op",
+        "Platformer"
+      ],
+      "players": "1–4, bots",
+      "controls": [
+        [
+          "Move, reach",
+          "W A S D"
+        ],
+        [
+          "Grip each hand",
+          "Q, E (hold)"
+        ],
+        [
+          "Jump",
+          "Space"
+        ],
+        [
+          "Piton",
+          "R"
+        ],
+        [
+          "Haul a teammate",
+          "F"
+        ]
+      ],
+      "touch": true,
+      "online": "Rooms need the Node server",
+      "source": {
+        "dir": "../rope-team/dist/itch",
+        "build": {
+          "cwd": "../rope-team",
+          "cmd": "node tools/build-itch.mjs"
+        }
+      },
+      "thumb": "../rope-team/screenshots/team-of-4.jpg",
+      "thumbAlt": "../rope-team/screenshots/ui-menu.jpg"
+    },
+    {
+      "id": "hexhaul",
+      "title": "HEXHAUL",
+      "tagline": "Shove your friends off a sinking island.",
+      "description": "A party brawler for two to eight players on an island of hex tiles that keeps sinking. Pull up tiles, carry them, build bridges, and push everyone else into the sea. Practice and two-player Local work in the page.",
+      "genres": [
+        "Party",
+        "Action"
+      ],
+      "players": "1–8, local 2P",
+      "controls": [
+        [
+          "Move",
+          "W A S D"
+        ],
+        [
+          "Jump",
+          "Space"
+        ],
+        [
+          "Grab / place",
+          "F"
+        ],
+        [
+          "Shove / throw",
+          "G (hold to charge)"
+        ],
+        [
+          "Menu",
+          "Esc"
+        ]
+      ],
+      "touch": true,
+      "online": "Online play needs the Node server",
+      "source": {
+        "dir": "../hexhaul/dist/itch",
+        "build": {
+          "cwd": "../hexhaul",
+          "cmd": "node tools/build-itch.mjs"
+        }
+      },
+      "thumb": "../hexhaul/screenshots/8-players.jpg",
+      "thumbAlt": "../hexhaul/screenshots/storm-warning.jpg"
+    },
+    {
+      "id": "skyfarm",
+      "title": "SKYFARM",
+      "tagline": "Grow a garden in the sky, then glide to the next island.",
+      "description": "Till, plant, water and harvest on a floating island, cook what you grow, and open a glider to cross the gaps to the islands beyond. Plays solo here; co-op for up to four runs on its own server.",
+      "genres": [
+        "Casual",
+        "Exploration"
+      ],
+      "players": "Solo",
+      "controls": [
+        [
+          "Walk / steer",
+          "W A S D"
+        ],
+        [
+          "Look",
+          "Mouse"
+        ],
+        [
+          "Jump / glider",
+          "Space"
+        ],
+        [
+          "Use",
+          "E or click"
+        ],
+        [
+          "Next seed",
+          "Q"
+        ]
+      ],
+      "touch": true,
+      "source": {
+        "dir": "../games/skyfarm"
+      },
+      "thumb": "../games/shots/skyfarm.jpg",
+      "thumbAlt": "../games/shots/skyfarm-title.jpg"
+    },
+    {
+      "id": "tidefall",
+      "title": "TIDEFALL",
+      "tagline": "The sea goes out. Raid the ruins before it comes back.",
+      "description": "Teams race onto the seabed while the tide is out, grab what the ruins hold and get it back to camp before the water returns. Practice mode fills the teams with bots.",
+      "genres": [
+        "Action",
+        "Multiplayer"
+      ],
+      "players": "Practice with bots",
+      "controls": [
+        [
+          "Move",
+          "W A S D"
+        ],
+        [
+          "Look",
+          "Mouse"
+        ],
+        [
+          "Jump / climb",
+          "Space"
+        ],
+        [
+          "Pick up / drop",
+          "E / Q"
+        ],
+        [
+          "Grapple",
+          "Right mouse or F"
+        ]
+      ],
+      "online": "Online play needs the Node server",
+      "source": {
+        "dir": "../games/tidefall"
+      },
+      "thumb": "../games/shots/tidefall.jpg",
+      "thumbAlt": "../games/shots/tidefall-title.jpg"
+    },
+    {
+      "id": "breach",
+      "title": "BREACH",
+      "tagline": "A fast arena shooter with five weapons and five-minute rounds.",
+      "description": "Two to eight players, five weapons and short rounds on tight arena maps. Practice puts you against bots at the skill you pick.",
+      "genres": [
+        "Shooter",
+        "Multiplayer"
+      ],
+      "players": "Practice with bots",
+      "controls": [
+        [
+          "Move",
+          "W A S D"
+        ],
+        [
+          "Look / fire",
+          "Mouse"
+        ],
+        [
+          "Jump / sprint",
+          "Space / Shift"
+        ],
+        [
+          "Crouch",
+          "C"
+        ],
+        [
+          "Weapons",
+          "1–5, wheel"
+        ]
+      ],
+      "online": "Online play needs the Node server",
+      "source": {
+        "dir": "../games/breach"
+      },
+      "thumb": "../games/shots/breach.jpg",
+      "thumbAlt": "../games/shots/breach-title.jpg"
+    },
+    {
+      "id": "night-market",
+      "title": "NIGHT MARKET",
+      "tagline": "Run a street-food market where the staff and regulars are the game.",
+      "description": "Buy stalls along a street, hire staff and watch the regulars come back night after night. Every person has a name and a mood, and you can click anyone to see what they are up to.",
+      "genres": [
+        "Strategy",
+        "Casual"
+      ],
+      "players": "Solo",
+      "controls": [
+        [
+          "Inspect",
+          "Click a person or stall"
+        ],
+        [
+          "Build",
+          "Click an empty spot"
+        ],
+        [
+          "Move / zoom",
+          "Drag / wheel"
+        ],
+        [
+          "Pause",
+          "Space"
+        ],
+        [
+          "Speed",
+          "1 2 3"
+        ]
+      ],
+      "touch": true,
+      "source": {
+        "dir": "../games/night-market"
+      },
+      "thumb": "../games/shots/night-market.jpg",
+      "thumbAlt": "../games/shots/night-market-title.jpg"
+    },
+    {
+      "id": "orbital",
+      "title": "ORBITAL",
+      "tagline": "Place worlds, bend the comet's path, reach the light.",
+      "description": "A gravity puzzle. Drag planets and stars onto the grid, launch the comet and watch their pull bend its flight towards the goal.",
+      "genres": [
+        "Puzzle",
+        "Physics"
+      ],
+      "players": "Solo",
+      "controls": [
+        [
+          "Place / move",
+          "Drag"
+        ],
+        [
+          "Remove",
+          "Right-click"
+        ],
+        [
+          "Launch",
+          "Space"
+        ],
+        [
+          "Hint",
+          "H"
+        ],
+        [
+          "Undo",
+          "Z"
+        ]
+      ],
+      "touch": true,
+      "source": {
+        "dir": "../games/orbital"
+      },
+      "thumb": "../games/shots/orbital.jpg",
+      "thumbAlt": "../games/shots/orbital-title.jpg"
+    },
+    {
+      "id": "rewind-heist",
+      "title": "REWIND HEIST",
+      "tagline": "Every loop you play is replayed by a ghost of your past self.",
+      "description": "A time-loop stealth heist. You never have enough time on your own, so each loop adds another ghost of you that repeats what you did. Put your past selves to work, crack the vault and get the gold out.",
+      "genres": [
+        "Stealth",
+        "Puzzle"
+      ],
+      "players": "Solo",
+      "controls": [
+        [
+          "Move",
+          "W A S D"
+        ],
+        [
+          "Use",
+          "F"
+        ],
+        [
+          "Grab / throw",
+          "G / T"
+        ],
+        [
+          "Plan mode",
+          "Tab"
+        ],
+        [
+          "End loop",
+          "E"
+        ]
+      ],
+      "source": {
+        "dir": "../games/rewind-heist"
+      },
+      "thumb": "../games/shots/rewind-heist.jpg",
+      "thumbAlt": "../games/shots/rewind-heist-title.jpg"
+    },
+    {
+      "id": "neon-rush",
+      "title": "NEON RUSH",
+      "tagline": "A synthwave runner on an endless neon track.",
+      "description": "Switch lanes, double-jump and drop fast to stay on a track that never ends. Swipe controls on phones.",
+      "genres": [
+        "Arcade",
+        "Runner"
+      ],
+      "players": "Solo",
+      "controls": [
+        [
+          "Change lane",
+          "A D or ← →"
+        ],
+        [
+          "Jump (twice for double)",
+          "W, Space or ↑"
+        ],
+        [
+          "Drop fast",
+          "S or ↓"
+        ],
+        [
+          "Pause",
+          "P or Esc"
+        ]
+      ],
+      "touch": true,
+      "source": {
+        "dir": "../games/neon-rush"
+      },
+      "thumb": "../games/shots/neon-rush.jpg",
+      "thumbAlt": "../games/shots/neon-rush-title.jpg"
+    },
+    {
+      "id": "decoy",
+      "title": "DECOY",
+      "tagline": "Prop hunt: hide as furniture or hunt whoever did.",
+      "description": "Prop hunt for four to ten players: hiders become objects around the map while hunters look for anything out of place. Practice plays with bots. Still being built.",
+      "genres": [
+        "Party",
+        "Multiplayer"
+      ],
+      "players": "Practice with bots",
+      "wip": true,
+      "controls": [
+        [
+          "Move",
+          "W A S D"
+        ],
+        [
+          "Look",
+          "Mouse"
+        ],
+        [
+          "Settings",
+          "Rebind any key"
+        ]
+      ],
+      "online": "Online play needs the Node server",
+      "source": {
+        "dir": "../games/decoy"
+      },
+      "thumb": "../games/shots/decoy.jpg",
+      "thumbAlt": "../games/shots/decoy-title.jpg"
+    },
+    {
+      "id": "paper-planes",
+      "title": "PAPER PLANES",
+      "tagline": "Paper-plane tag in a giant room where the air is the terrain.",
+      "description": "You are a paper plane in a giant room and the air is the terrain: ride a radiator thermal, slingshot through a fan blast, dodge a window gust, and tag (or flee) the plane covered in ink. Nothing has an engine, so you only go where the air lets you. Practice plays with bots. Still being built.",
+      "genres": [
+        "Flying",
+        "Multiplayer"
+      ],
+      "players": "Practice with bots",
+      "wip": true,
+      "controls": [
+        [
+          "Steer",
+          "Mouse"
+        ],
+        [
+          "Settings",
+          "Rebind any key"
+        ]
+      ],
+      "online": "Online play needs the Node server",
+      "source": {
+        "dir": "../games/paper-planes"
+      },
+      "thumb": "../games/shots/paper-planes.jpg",
+      "thumbAlt": "../games/shots/paper-planes-title.jpg"
+    }
+  ]
+}

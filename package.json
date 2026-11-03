@@ -1,0 +1,11 @@
+{
+  "name": "projection-arcade",
+  "private": true,
+  "type": "module",
+  "description": "PROJECTION ARCADE: a static web portal that lists and plays the Projection Lab games",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "rebuild": "node tools/build.mjs --rebuild",
+    "start": "node tools/serve.mjs 5198"
+  }
+}
