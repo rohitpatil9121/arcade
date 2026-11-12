@@ -52,6 +52,7 @@
     },
     {
       "id": "rope-team",
+      "hold": "the climber model's licence is unknown (see rope-team/THIRD_PARTY.md)",
       "title": "ROPE TEAM",
       "tagline": "Climb a mountain on one shared rope.",
       "description": "Co-op climbing for one to four people tied to the same rope. When one of you slips, the others have to hold on. Climb with bots straight away; rooms with friends need the game's server.",

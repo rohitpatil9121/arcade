@@ -195,6 +195,7 @@ function gamePage(g) {
                     <p>${esc(g.description)}</p>
                     ${g.online ? `<p class="note">${esc(g.online)}. Everything else plays right here.</p>` : ""}
                     ${g.wip ? `<p class="note">Still being built: expect rough edges.</p>` : ""}
+                    ${g.credits ? `<p class="hint"><a href="${g.credits}" target="_blank" rel="noopener">Credits and licences</a></p>` : ""}
                 </section>
                 <section>
                     <h2>Controls</h2>

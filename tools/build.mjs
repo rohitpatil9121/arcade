@@ -36,6 +36,11 @@ const listed = [];
 for (const game of catalog.games) {
     const { source, thumb, thumbAlt, ...entry } = game;
     const from = resolve(ROOT, source.dir), to = join(OUT, "play", game.id);
+    if (game.hold) {
+        rmSync(to, { recursive: true, force: true });
+        console.log(`${game.id.padEnd(14)}  held back: ${game.hold}`);
+        continue;
+    }
     if (!only.length || only.includes(game.id)) {
         if (source.build && (rebuild || !existsSync(from))) {
             console.log(`${game.id}: ${source.build.cmd}`);
@@ -45,6 +50,9 @@ for (const game of catalog.games) {
         if (!existsSync(join(from, "index.html"))) { console.error(`${game.id}: no index.html in ${from}, skipped`); failed++; continue; }
         rmSync(to, { recursive: true, force: true });
         cpSync(from, to, { recursive: true, filter: (src) => !SKIP.test(src.slice(from.length)) });
+        // the licences travel with the game, even when its own build leaves them out
+        const licence = [from, source.build && resolve(ROOT, source.build.cwd)].filter(Boolean).map((d) => join(d, "THIRD_PARTY.md")).find(existsSync);
+        if (licence && !existsSync(join(to, "THIRD_PARTY.md"))) cpSync(licence, join(to, "THIRD_PARTY.md"));
         for (const [key, file] of [["thumb", thumb], ["thumbAlt", thumbAlt]]) {
             if (!file) continue;
             const path = resolve(ROOT, file);
@@ -61,11 +69,16 @@ for (const game of catalog.games) {
         thumb: thumb && existsSync(join(OUT, "thumbs", game.id + ext(thumb))) ? `thumbs/${game.id}${ext(thumb)}` : null,
         thumbAlt: thumbAlt && existsSync(join(OUT, "thumbs", `${game.id}-alt${ext(thumbAlt)}`)) ? `thumbs/${game.id}-alt${ext(thumbAlt)}` : null,
         mb: Number(mb(size(to))),
+        credits: existsSync(join(to, "THIRD_PARTY.md")) ? `play/${game.id}/THIRD_PARTY.md` : null,
     });
 }
 // games removed from catalog.json leave no folder behind
 for (const dir of readdirSync(join(OUT, "play"))) if (!catalog.games.some((g) => g.id === dir)) rmSync(join(OUT, "play", dir), { recursive: true, force: true });
+// and no thumbnail of a game that is held back or gone
+const thumbs = new Set(listed.flatMap((g) => [g.thumb, g.thumbAlt]).filter(Boolean).map((t) => t.slice("thumbs/".length)));
+for (const file of readdirSync(join(OUT, "thumbs"))) if (!thumbs.has(file)) rmSync(join(OUT, "thumbs", file));
 
-writeFileSync(join(OUT, "catalog.json"), JSON.stringify({ featured: catalog.featured, games: listed }, null, 2) + "\n");
+const featured = catalog.featured.filter((id) => listed.some((g) => g.id === id));
+writeFileSync(join(OUT, "catalog.json"), JSON.stringify({ featured, games: listed }, null, 2) + "\n");
 console.log(`dist: ${listed.length} games, ${mb(size(OUT))} MB${failed ? `, ${failed} failed` : ""}`);
 if (failed) process.exit(1);
