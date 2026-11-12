@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>PROJECTION ARCADE</title>
+    <meta name="description" content="Free browser games built on Projection Lab, a hand-written WebGL engine. Pick one and play it in the page.">
+    <meta name="theme-color" content="#0c0e18">
+    <meta property="og:title" content="PROJECTION ARCADE">
+    <meta property="og:description" content="Free browser games built on Projection Lab, a hand-written WebGL engine. Pick one and play it in the page.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="thumbs/faultline.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="skip" href="#main">Skip to the games</a>
+    <div class="masthead">
+    <header class="top">
+        <a class="brand" href="#/" aria-label="PROJECTION ARCADE home">
+            <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M7 20 L33 7 V33 Z" fill="var(--beam)" opacity=".28"/>
+                <path d="M7 20 L33 12 V28 Z" fill="var(--beam)" opacity=".55"/>
+                <circle cx="8" cy="20" r="5.5" fill="var(--ink)" stroke="var(--beam)" stroke-width="2.5"/>
+                <circle cx="8" cy="20" r="1.8" fill="var(--beam)"/>
+                <rect x="31" y="5" width="4" height="30" rx="2" fill="var(--glow)"/>
+            </svg>
+            <span class="brand-word">PROJECTION<b>ARCADE</b></span>
+        </a>
+        <form class="search" role="search" onsubmit="return false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="q" type="search" placeholder="Search games" aria-label="Search games" autocomplete="off" spellcheck="false">
+            <kbd>/</kbd>
+        </form>
+        <a class="fav-link" href="#/saved" aria-label="Saved games">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.6c0 5.7-7.5 10.3-7.5 10.3Z"/></svg>
+            <span id="fav-count">0</span>
+        </a>
+    </header>
+    <nav class="chips" id="chips" aria-label="Categories"></nav>
+    </div>
+    <main id="main" tabindex="-1"></main>
+    <footer class="foot">
+        <p>Every game here is made on <a href="https://rohitpatil9121.github.io/projection_library/">Projection Lab</a>, a WebGL engine written from scratch. No accounts, no ads: saved games and recent plays stay in this browser.</p>
+    </footer>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

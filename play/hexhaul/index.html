@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>HEXHAUL</title>
+    <meta name="description" content="HEXHAUL: a party brawler on a sinking island of hex tiles, built on the Projection Lab engine.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="view" tabindex="0" aria-label="The island, seen from above"></canvas>
+    <div id="tags" aria-hidden="true"></div>
+
+    <div id="hud" hidden>
+        <ol id="scores"></ol>
+        <div id="banner" hidden></div>
+        <div id="storm" hidden></div>
+        <div id="haul" hidden></div>
+        <div id="swim"></div>
+        <div id="captions" aria-live="polite"></div>
+        <div id="tutorial" hidden></div>
+        <button id="touch-menu" hidden aria-label="Menu">Menu</button>
+        <div id="board" hidden></div>
+        <div id="toast" hidden></div>
+        <pre id="debug" hidden></pre>
+        <p id="keys-hint">WASD or arrows · Space jump · F grab / place · G shove, or throw what you carry (hold to charge) · 1-6 emote · Tab scores · M mute · Esc menu</p>
+    </div>
+
+    <main id="title" class="screen">
+        <div class="card">
+            <h1>HEXHAUL</h1>
+            <p class="lede">The island is sinking. Pull up tiles, build your way out, shove everyone else in.</p>
+            <label class="field">Your name <input id="name" type="text" autocomplete="nickname" spellcheck="false"></label>
+
+            <label class="field">Mode <select id="mode"><option value="last">Last Bot Standing</option><option value="teams">Teams</option><option value="haul">Haul: carry tiles to your goal</option></select></label>
+
+            <p class="hint" id="mode-help"></p>
+            <label class="field">Bot skill <select id="skill"><option value="easy">Easy</option><option value="normal" selected>Normal</option><option value="hard">Hard</option></select></label>
+
+            <section>
+                <h2>Practice</h2>
+                <div class="row">
+                    <label class="field">Bots <select id="p-bots"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option></select></label>
+                    <button id="practice" class="primary">Play against bots</button>
+                </div>
+            </section>
+
+            <section>
+                <h2>Your robot</h2>
+                <p class="hint" id="xp-line"></p>
+                <div class="row">
+                    <label class="field">Hat <select id="look-hat"></select></label>
+                    <label class="field">Paint <select id="look-paint"></select></label>
+                </div>
+            </section>
+
+            <section>
+                <h2>Online</h2>
+                <p class="hint" id="server-status">Looking for a server…</p>
+                <div class="row">
+                    <button id="quick" disabled>Quick play</button>
+                    <button id="create" disabled>Create a room</button>
+                    <label class="check"><input id="c-open" type="checkbox" checked> Open to quick play</label>
+                </div>
+                <form id="join-form" class="row">
+                    <label class="field">Room code <input id="code" type="text" maxlength="4" autocomplete="off" spellcheck="false" placeholder="ABCD"></label>
+                    <button id="join" disabled>Join</button>
+                </form>
+            </section>
+
+            <section>
+                <h2>Local</h2>
+                <p class="hint">Two players, one keyboard. P1: WASD, Space, F, G. P2: arrows, Right Shift, full stop, slash.</p>
+                <div class="row">
+                    <label class="field">Robots <select id="l-players"><option>2</option><option>3</option><option selected>4</option><option>6</option><option>8</option></select></label>
+                    <button id="local">Play on one keyboard</button>
+                </div>
+            </section>
+            <div class="row"><button id="title-settings">Settings</button></div>
+            <p class="foot">Built on <a href="https://rohitpatil9121.github.io/projection_library/">Projection Lab</a>.</p>
+        </div>
+    </main>
+
+    <div id="lobby" class="screen" hidden>
+        <div class="card">
+            <p class="eyebrow">Room code</p>
+            <p class="code-line"><strong id="lobby-code"></strong> <button id="lobby-invite">Copy invite link</button></p>
+            <div id="lobby-result"></div>
+            <h2 id="lobby-mode"></h2>
+            <p class="hint" id="lobby-help"></p>
+            <ul id="lobby-players"></ul>
+            <p id="lobby-status" role="status"></p>
+            <div class="row">
+                <button id="lobby-ready" class="primary">Ready</button>
+                <button id="lobby-start" hidden>Start now</button>
+                <button id="lobby-leave">Leave</button>
+            </div>
+            <fieldset id="lobby-host" hidden>
+                <legend>You are the host</legend>
+                <div class="row">
+                    <label class="field">Mode <select id="l-mode"><option value="last">Last Bot Standing</option><option value="teams">Teams</option><option value="haul">Haul</option></select></label>
+                    <label class="field">Bot skill <select id="l-skill"><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select></label>
+                    <label class="field">Fill with bots to <select id="l-bots"><option>0</option><option>2</option><option>4</option><option>6</option><option>8</option></select></label>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div id="settings" class="screen" hidden>
+        <div class="card">
+            <h2>Settings</h2>
+            <label class="slider">Music <output id="vol-music-out"></output><input id="vol-music" type="range" min="0" max="100" step="5"></label>
+            <label class="slider">Effects <output id="vol-sfx-out"></output><input id="vol-sfx" type="range" min="0" max="100" step="5"></label>
+            <label class="check"><input id="vol-mute" type="checkbox"> Mute everything (M)</label>
+            <div class="row">
+                <label class="field">Graphics <select id="set-quality"><option value="auto">Automatic</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+                <label class="field">Reduce motion <select id="set-motion"><option value="auto">As your device says</option><option value="on">On</option><option value="off">Off</option></select></label>
+            </div>
+            <label class="slider">Text size <output id="set-text-out"></output><input id="set-text" type="range" min="100" max="150" step="10"></label>
+            <label class="check"><input id="set-captions" type="checkbox"> Captions for important sounds</label>
+            <label class="check"><input id="set-contrast" type="checkbox"> Strong warning colours (black and yellow on tiles about to sink)</label>
+            <h2>Keys</h2>
+            <p class="hint" id="keys-note">Choose an action, then press the new key. Esc cancels.</p>
+            <div id="key-list" class="keys"></div>
+            <div class="row"><button id="keys-reset">Reset keys</button><button id="settings-back" class="primary">Done</button></div>
+        </div>
+    </div>
+
+    <div id="pause" class="screen" hidden>
+        <div class="card">
+            <h2>Paused</h2>
+            <p class="hint">The round carries on behind this menu.</p>
+            <p id="room-line" hidden>Room <strong id="room-code"></strong> <button id="invite">Copy invite link</button></p>
+            <div class="row"><button id="resume" class="primary">Back to the island</button><button id="leave">Leave</button></div>
+            <fieldset id="host" hidden>
+                <legend>You are the host</legend>
+                <div class="row">
+                    <label class="field">Fill with bots to <select id="h-bots"><option>0</option><option>2</option><option>4</option><option selected>6</option><option>8</option></select></label>
+                    <label class="field">Mode <select id="h-mode"><option value="last">Last Bot Standing</option><option value="teams">Teams</option><option value="haul">Haul</option></select></label>
+                    <label class="field">Bot skill <select id="h-skill"><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select></label>
+                    <button id="host-apply">Apply</button>
+                </div>
+            </fieldset>
+            <div class="row"><button id="pause-settings">Settings</button></div>
+            <details>
+                <summary>Network test</summary>
+                <p class="hint">Makes your own connection worse on purpose. F3 shows the numbers.</p>
+                <label class="slider">Added ping <output id="net-latency-out"></output><input id="net-latency" type="range" min="0" max="400" step="10" value="0"></label>
+                <label class="slider">Jitter <output id="net-jitter-out"></output><input id="net-jitter" type="range" min="0" max="100" step="5" value="0"></label>
+                <label class="slider">Packet loss <output id="net-loss-out"></output><input id="net-loss" type="range" min="0" max="20" step="1" value="0"></label>
+            </details>
+        </div>
+    </div>
+
+    <script type="module" src="game/main.js"></script>
+</body>
+</html>

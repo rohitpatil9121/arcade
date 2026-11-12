@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>FAULTLINE</title>
+    <meta name="description" content="FAULTLINE: a hill-driving game where the ground moves under you. Built on the Projection Lab engine.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M0 22 L9 14 L14 19 L20 9 L32 18 V32 H0Z' fill='%23c8643b'/%3E%3Cpath d='M18 12 L16 18 L19 21 L17 28' stroke='%23ff5a36' stroke-width='2.5' fill='none'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="view" tabindex="0" aria-label="The road, seen from the side"></canvas>
+    <div id="tags" aria-hidden="true"></div>
+
+    <div id="hud" hidden>
+        <div id="dist"><b id="dist-n">0</b><span>m</span><small id="dist-best"></small></div>
+        <div id="fuel" aria-label="Fuel"><span class="ico">⛽</span><div class="bar"><i id="fuel-bar"></i></div></div>
+        <div id="coins-hud"><span class="coin"></span><b id="coins-n">0</b></div>
+        <div id="charges-hud" title="Tremor charges"></div>
+        <div id="tide" hidden></div>
+        <div id="place" hidden></div>
+        <div id="arrows" aria-hidden="true"></div>
+        <div id="pops" aria-hidden="true"></div>
+        <div id="captions" aria-live="polite"></div>
+        <div id="tutorial" hidden></div>
+        <button id="pause-btn" aria-label="Pause">❚❚</button>
+        <pre id="debug" hidden></pre>
+    </div>
+
+    <main id="title" class="screen">
+        <div class="hero">
+            <h1>FAULT<span>LINE</span></h1>
+            <p class="tag">The road moves. Read it, ride it, or reshape it.</p>
+        </div>
+        <nav class="menu" aria-label="Main menu">
+            <button id="go" class="big" data-focus>Drive</button>
+            <button id="to-garage">Garage</button>
+            <button id="to-race">Race</button>
+            <button id="to-daily">Daily road</button>
+            <button id="to-achievements">Achievements</button>
+            <button id="to-settings">Settings</button>
+        </nav>
+        <p class="wallet"><span class="coin"></span><b class="coins">0</b></p>
+        <p class="hint" id="title-hint">→ drive · ← brake and reverse · Space hold to aim a charge, let go to drop it · Esc pause</p>
+    </main>
+
+    <main id="select" class="screen" hidden>
+        <h2 id="select-title">Choose a road</h2>
+        <div id="difficulty" class="row" hidden role="radiogroup" aria-label="Rival difficulty">
+            <button data-diff="easy">Easy</button><button data-diff="normal">Normal</button><button data-diff="hard">Hard</button>
+        </div>
+        <div id="biomes" class="cards"></div>
+        <div class="row"><button data-back>Back</button></div>
+    </main>
+
+    <main id="garage" class="screen" hidden>
+        <div class="garage-head">
+            <button id="prev-car" class="arrow" aria-label="Previous vehicle">‹</button>
+            <div><h2 id="car-name"></h2><p id="car-blurb"></p></div>
+            <button id="next-car" class="arrow" aria-label="Next vehicle">›</button>
+        </div>
+        <div class="garage-body">
+            <div id="car-stats" class="stats"></div>
+            <div id="upgrades"></div>
+        </div>
+        <div class="row">
+            <button id="car-action" class="big"></button>
+            <button data-back>Back</button>
+        </div>
+        <p class="wallet"><span class="coin"></span><b class="coins">0</b></p>
+    </main>
+
+    <main id="pause" class="screen dim" hidden>
+        <h2>Paused</h2>
+        <nav class="menu">
+            <button id="resume" data-focus>Resume</button>
+            <button id="restart">Restart</button>
+            <button id="pause-settings">Settings</button>
+            <button id="quit">Quit to menu</button>
+        </nav>
+    </main>
+
+    <main id="results" class="screen dim" hidden>
+        <p id="res-line" class="line"></p>
+        <h2 id="res-dist"></h2>
+        <p id="res-best"></p>
+        <ul id="res-list"></ul>
+        <ul id="res-new"></ul>
+        <nav class="row">
+            <button id="again" class="big" data-focus>Again</button>
+            <button id="res-garage">Garage</button>
+            <button id="res-menu">Menu</button>
+        </nav>
+    </main>
+
+    <main id="settings" class="screen dim" hidden>
+        <h2>Settings</h2>
+        <form id="settings-form" class="settings" onsubmit="return false">
+            <label>Music <input type="range" id="set-music" min="0" max="1" step="0.05"></label>
+            <label>Effects <input type="range" id="set-sfx" min="0" max="1" step="0.05"></label>
+            <label><input type="checkbox" id="set-muted"> Mute everything (M)</label>
+            <label>Graphics <select id="set-quality"><option value="auto">Automatic</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+            <label>Reduce motion <select id="set-motion"><option value="auto">Follow my system</option><option value="on">On</option><option value="off">Off</option></select></label>
+            <label>Text size <select id="set-text"><option value="1">Normal</option><option value="1.2">Large</option><option value="1.4">Larger</option></select></label>
+            <label><input type="checkbox" id="set-captions"> Captions for important sounds</label>
+            <label><input type="checkbox" id="set-contrast"> Stronger warning glow</label>
+            <label><input type="checkbox" id="set-assist"> Assist: warnings last 50% longer</label>
+            <fieldset><legend>Keys (click, then press a key)</legend>
+                <div id="keys" class="keys"></div>
+            </fieldset>
+            <button type="button" id="reset-save" class="danger">Erase progress…</button>
+        </form>
+        <div class="row"><button data-back data-focus>Done</button></div>
+    </main>
+
+    <main id="achievements" class="screen dim" hidden>
+        <h2>Achievements</h2>
+        <ul id="ach-list" class="ach"></ul>
+        <div class="row"><button data-back data-focus>Back</button></div>
+    </main>
+
+    <div id="toast" role="status" hidden></div>
+    <noscript>FAULTLINE needs JavaScript and WebGL.</noscript>
+    <script type="module" src="game/main.js"></script>
+</body>
+</html>
