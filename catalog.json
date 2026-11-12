@@ -42,8 +42,13 @@
           "cmd": "node tools/build-itch.mjs"
         }
       },
-      "thumb": "../faultline/screenshots/mesa.jpg",
-      "thumbAlt": "../faultline/screenshots/title.jpg"
+      "thumb": "../faultline/screenshots/race.jpg",
+      "thumbAlt": "../faultline/screenshots/title.jpg",
+      "crop": [
+        1.3,
+        60,
+        80
+      ]
     },
     {
       "id": "rope-team",
@@ -87,7 +92,12 @@
         }
       },
       "thumb": "../rope-team/screenshots/team-of-4.jpg",
-      "thumbAlt": "../rope-team/screenshots/ui-menu.jpg"
+      "thumbAlt": "../rope-team/screenshots/ui-menu.jpg",
+      "crop": [
+        1.6,
+        50,
+        55
+      ]
     },
     {
       "id": "hexhaul",
@@ -209,7 +219,12 @@
         "dir": "../games/tidefall"
       },
       "thumb": "../games/shots/tidefall.jpg",
-      "thumbAlt": "../games/shots/tidefall-title.jpg"
+      "thumbAlt": "../games/shots/tidefall-title.jpg",
+      "crop": [
+        1.25,
+        50,
+        75
+      ]
     },
     {
       "id": "breach",
@@ -247,8 +262,13 @@
       "source": {
         "dir": "../games/breach"
       },
-      "thumb": "../games/shots/breach.jpg",
-      "thumbAlt": "../games/shots/breach-title.jpg"
+      "thumb": "shots/breach.jpg",
+      "thumbAlt": "../games/shots/breach-title.jpg",
+      "crop": [
+        1.3,
+        50,
+        85
+      ]
     },
     {
       "id": "night-market",
@@ -286,8 +306,8 @@
       "source": {
         "dir": "../games/night-market"
       },
-      "thumb": "../games/shots/night-market.jpg",
-      "thumbAlt": "../games/shots/night-market-title.jpg"
+      "thumb": "../games/shots/night-market-title.jpg",
+      "thumbAlt": "../games/shots/night-market.jpg"
     },
     {
       "id": "orbital",
@@ -325,8 +345,8 @@
       "source": {
         "dir": "../games/orbital"
       },
-      "thumb": "../games/shots/orbital.jpg",
-      "thumbAlt": "../games/shots/orbital-title.jpg"
+      "thumb": "../games/shots/orbital-title.jpg",
+      "thumbAlt": "../games/shots/orbital.jpg"
     },
     {
       "id": "rewind-heist",
@@ -363,8 +383,8 @@
       "source": {
         "dir": "../games/rewind-heist"
       },
-      "thumb": "../games/shots/rewind-heist.jpg",
-      "thumbAlt": "../games/shots/rewind-heist-title.jpg"
+      "thumb": "../games/shots/rewind-heist-title.jpg",
+      "thumbAlt": "../games/shots/rewind-heist.jpg"
     },
     {
       "id": "neon-rush",
@@ -430,8 +450,13 @@
       "source": {
         "dir": "../games/decoy"
       },
-      "thumb": "../games/shots/decoy.jpg",
-      "thumbAlt": "../games/shots/decoy-title.jpg"
+      "thumb": "shots/decoy.jpg",
+      "thumbAlt": "../games/shots/decoy-title.jpg",
+      "crop": [
+        1.3,
+        50,
+        85
+      ]
     },
     {
       "id": "paper-planes",
@@ -459,7 +484,12 @@
         "dir": "../games/paper-planes"
       },
       "thumb": "../games/shots/paper-planes.jpg",
-      "thumbAlt": "../games/shots/paper-planes-title.jpg"
+      "thumbAlt": "../games/shots/paper-planes-title.jpg",
+      "crop": [
+        1.2,
+        50,
+        50
+      ]
     }
   ]
 }

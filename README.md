@@ -36,8 +36,11 @@ Add an entry to `catalog.json`:
 | `source.dir` | The static build to copy, relative to this folder |
 | `source.build` | Optional: `{ cwd, cmd }` that makes `source.dir` |
 | `thumb`, `thumbAlt` | 16:9 images; the second one shows when a tile is hovered |
+| `crop` | Optional `[zoom, x%, y%]` for `thumb`: zooms in around that point so the game's HUD falls outside the frame |
 
 `featured` at the top lists the games in the carousel on the home page.
+
+`node tools/shots.mjs` captures a thumbnail from play, for games whose own screenshots only show a menu: it starts a Practice round in headless Chrome and saves `shots/<id>.jpg`. BREACH and DECOY use these.
 
 Where the games come from now: FAULTLINE, ROPE TEAM and HEXHAUL from their own `dist/itch`, and the other nine from the `games` repository next to this one, which already holds Pages-ready copies and the card shots in `games/shots/`.
 

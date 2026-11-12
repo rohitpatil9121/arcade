@@ -56,9 +56,15 @@ function remember(id) {
     store.set("recent", recent);
 }
 
+/** An image that fades in once loaded; `crop` [zoom, x%, y%] in the catalog pushes a game's HUD out of frame. */
+function art(g, src, { cls = "", lazy = true, crop = true } = {}) {
+    const [z, x, y] = (crop && g.crop) || [1, 50, 50];
+    return `<img class="art ${cls}" src="${src}" alt="" width="1280" height="720"${lazy ? ` loading="lazy"` : ""} style="--z:${z};--fx:${x}%;--fy:${y}%" onload="this.classList.add('ready')">`;
+}
+
 function tile(g) {
     const cover = g.thumb
-        ? `<img src="${g.thumb}" alt="" loading="lazy" width="1280" height="720">${g.thumbAlt ? `<img class="alt" src="${g.thumbAlt}" alt="" loading="lazy" width="1280" height="720">` : ""}`
+        ? art(g, g.thumb) + (g.thumbAlt ? art(g, g.thumbAlt, { cls: "alt", crop: false }) : "")
         : `<div class="nothumb">${esc(g.title)}</div>`;
     return `<li class="tile">
         <a href="#/game/${g.id}" class="tile-link">
@@ -95,32 +101,44 @@ function hero() {
     if (!list.length) return "";
     const slides = list.map((g, i) => `
         <a class="slide${i === 0 ? " on" : ""}" href="#/game/${g.id}" tabindex="${i === 0 ? 0 : -1}" aria-hidden="${i !== 0}">
-            ${g.thumb ? `<img src="${g.thumb}" alt="" width="1280" height="720"${i ? ` loading="lazy"` : ""}>` : ""}
+            ${g.thumb ? art(g, g.thumb, { lazy: i > 0 }) : ""}
             <div class="slide-text">
-                <p class="kicker">${g.genres.map(esc).join(" · ")}</p>
+                <p class="kicker">Featured · ${g.genres.map(esc).join(" · ")}</p>
                 <h2>${esc(g.title)}</h2>
                 <p>${esc(g.tagline)}</p>
                 <span class="btn primary">${ICONS.play}Play now</span>
             </div>
         </a>`).join("");
-    const dots = list.map((g, i) => `<button type="button" class="dot${i === 0 ? " on" : ""}" data-slide="${i}" aria-label="Show ${esc(g.title)}"></button>`).join("");
-    return `<section class="hero" aria-label="Featured games">${slides}<div class="dots">${dots}</div></section>`;
+    // beside the slides on wide screens, dots below them on narrow ones; the bar fills while a slide is up
+    const picks = list.map((g, i) => `
+        <button type="button" class="pick${i === 0 ? " on" : ""}" data-slide="${i}" aria-label="Show ${esc(g.title)}">
+            ${g.thumb ? `<span class="pick-art">${art(g, g.thumb, { lazy: false })}</span>` : ""}
+            <span class="pick-text"><b>${esc(g.title)}</b><small>${g.genres.map(esc).join(" · ")}</small></span>
+            <span class="pick-bar"></span>
+        </button>`).join("");
+    return `<section class="hero" aria-label="Featured games"><div class="stage-slides">${slides}</div><div class="picks">${picks}</div></section>`;
 }
 function startHero() {
     const root = $(".hero");
     if (!root) return;
-    const slides = [...root.querySelectorAll(".slide")], dots = [...root.querySelectorAll(".dot")];
+    const slides = [...root.querySelectorAll(".slide")], picks = [...root.querySelectorAll(".pick")];
     let at = 0;
     const show = (i) => {
         at = (i + slides.length) % slides.length;
         slides.forEach((s, j) => { s.classList.toggle("on", j === at); s.tabIndex = j === at ? 0 : -1; s.setAttribute("aria-hidden", j !== at); });
-        dots.forEach((d, j) => d.classList.toggle("on", j === at));
+        // re-adding the class restarts the fill animation on the picked bar
+        picks.forEach((p, j) => p.classList.remove("on"));
+        void root.offsetWidth;
+        picks[at].classList.add("on");
     };
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const restart = () => { clearInterval(heroTimer); if (!still) heroTimer = setInterval(() => show(at + 1), 6000); };
-    dots.forEach((d, i) => d.addEventListener("click", () => { show(i); restart(); }));
-    root.addEventListener("mouseenter", () => clearInterval(heroTimer));
+    const restart = () => { clearInterval(heroTimer); root.classList.remove("paused"); show(at); if (!still) heroTimer = setInterval(() => show(at + 1), 6000); };
+    const pause = () => { clearInterval(heroTimer); root.classList.add("paused"); };
+    picks.forEach((p, i) => p.addEventListener("click", () => { show(i); restart(); }));
+    root.addEventListener("mouseenter", pause);
     root.addEventListener("mouseleave", restart);
+    root.addEventListener("focusin", pause);
+    if (still) root.classList.add("paused");
     restart();
 }
 
@@ -151,8 +169,9 @@ function gamePage(g) {
         <article class="game">
             <a class="crumb" href="#/">${ICONS.back}All games</a>
             <div class="stage" id="stage">
+                <div class="loading" aria-hidden="true"><span class="spinner"></span><span>Loading ${esc(g.title)}…</span></div>
                 <div class="poster">
-                    ${g.thumb ? `<img src="${g.thumb}" alt="" width="1280" height="720">` : ""}
+                    ${g.thumb ? art(g, g.thumb, { lazy: false }) : ""}
                     <button class="big-play" id="start" type="button">${ICONS.play}<span>Play ${esc(g.title)}</span></button>
                     <p class="size">${g.mb} MB · runs in your browser, nothing to install</p>
                 </div>
@@ -194,16 +213,16 @@ function gamePage(g) {
         frame.title = g.title;
         frame.allow = "autoplay; fullscreen; gamepad; pointer-lock";
         frame.allowFullscreen = true;
-        frame.addEventListener("load", () => frame.contentWindow?.focus());
+        frame.addEventListener("load", () => { stage?.classList.remove("booting"); frame.contentWindow?.focus(); });
         stage.prepend(frame);
-        stage.classList.add("playing");
+        stage.classList.add("playing", "booting");
         $("#reload").disabled = false;
         remember(g.id);
         // phones get the whole screen straight away; the page around the game is too cramped to play in
         if (matchMedia("(pointer: coarse) and (max-width: 900px)").matches) enterFull();
     };
     $("#start").addEventListener("click", start);
-    $("#reload").addEventListener("click", () => { const f = $("iframe", stage); if (f) { f.src = g.play; f.focus(); } });
+    $("#reload").addEventListener("click", () => { const f = $("iframe", stage); if (f) { stage.classList.add("booting"); f.src = g.play; f.focus(); } });
     $("#full").addEventListener("click", () => { start(); isFull() ? leaveFull() : enterFull(); });
     $("#exit").addEventListener("click", leaveFull);
 }
